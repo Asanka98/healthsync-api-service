@@ -1,0 +1,45 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: aggregator-service
+  namespace: default
+spec:
+  schedule: "0 3 * * *" # Schedule to run daily at 3:00 AM
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: aggregator-service
+            image: 553580522931.dkr.ecr.ap-southeast-1.amazonaws.com/healthsync/aggregator-service:latest
+            env:
+            - name: RDS_DB_URI
+              valueFrom:
+                secretKeyRef:
+                  name: db-secrets
+                  key: RDS_DB_URI
+            imagePullPolicy: Always
+            ports:
+            - containerPort: 8086
+            resources:
+              limits:
+                memory: "512Mi"
+                cpu: "500m"
+              requests:
+                memory: "256Mi"
+                cpu: "250m"
+          restartPolicy: OnFailure
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: notification-service
+  namespace: healthsync
+spec:
+  type: LoadBalancer
+  selector:
+    app: notification-service 
+  ports:
+  - port: 80
+    targetPort: 8080
