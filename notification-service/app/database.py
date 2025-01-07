@@ -1,8 +1,9 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+import os
 
-DATABASE_URL = "mysql+pymysql://admin:admin123@helthsync.czu6w8q8setz.ap-southeast-1.rds.amazonaws.com:3306/healthsync"
+DATABASE_URL = os.getenv("RDS_DB_URI")
 
 engine = create_engine(DATABASE_URL, pool_size=10, max_overflow=20, pool_pre_ping=True)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

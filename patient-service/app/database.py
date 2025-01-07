@@ -3,9 +3,6 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import os
 
-
-# Database connection URL
-#helthsync.czu6w8q8setz.ap-southeast-1.rds.amazonaws.com
 DATABASE_URL = os.getenv("RDS_DB_URI")
 
 # SQLAlchemy engine and session setup
