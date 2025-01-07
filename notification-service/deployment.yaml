@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notification-service
+  namespace: healthsync
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  replicas: 1
+  selector:
+    matchLabels:
+      app: notification-service
+  template:
+    metadata:
+      labels:
+        app: notification-service
+    spec:
+      containers:
+      - name: notification-service
+        image: 553580522931.dkr.ecr.ap-southeast-1.amazonaws.com/healthsync/notification-service:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8085
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "250m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: notification-service
+  namespace: healthsync
+spec:
+  type: LoadBalancer
+  selector:
+    app: notification-service 
+  ports:
+  - port: 80
+    targetPort: 8080

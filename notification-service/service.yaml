@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: notification-service
+  namespace: healthsync
+spec:
+  type: LoadBalancer
+  selector:
+    app: notification-service
+  ports:
+    - port: 80          # External port exposed by the LoadBalancer
+      targetPort: 8000   # Correct internal port where the app is running
+  selector:
+    app: notification-service   # Matches the label in the Deployment
