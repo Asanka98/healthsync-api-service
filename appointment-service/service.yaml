@@ -9,6 +9,6 @@ spec:
     app: appointment-service
   ports:
     - port: 80          # External port exposed by the LoadBalancer
-      targetPort: 8000   # Correct internal port where the app is running
+      targetPort: 8000   # internal port where the app is running
   selector:
     app: appointment-service   # Matches the label in the Deployment
