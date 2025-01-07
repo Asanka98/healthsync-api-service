@@ -21,6 +21,12 @@ spec:
       containers:
       - name: patient-service
         image: 553580522931.dkr.ecr.ap-southeast-1.amazonaws.com/healthsync/patient-service:latest
+        env:
+            - name: RDS_DB_URI
+              valueFrom:
+                secretKeyRef:
+                  name: db-secrets
+                  key: RDS_DB_URI
         imagePullPolicy: Always
         ports:
         - containerPort: 8084
