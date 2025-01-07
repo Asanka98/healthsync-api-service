@@ -46,6 +46,6 @@ jobs:
       run: |
         kubectl create namespace healthsync || echo "Namespace 'healthsync' already exists"
         kubectl config set-context --current --namespace=healthsync
-        kubectl apply -f notification-servicedeployment.yaml
-        kubectl apply -f notification-serviceservice.yaml
+        kubectl apply -f notification-service/deployment.yaml
+        kubectl apply -f notification-service/service.yaml
         kubectl get svc -n healthsync
