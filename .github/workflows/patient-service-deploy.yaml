@@ -26,6 +26,14 @@ jobs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
 
+    - name: Create ECR Repository if not exists
+      run: |
+        REPO_NAME=healthsync/patient-service
+        # Check if the repository exists
+        aws ecr describe-repositories --repository-names $REPO_NAME || \
+        # If it doesn't exist, create it
+        aws ecr create-repository --repository-name $REPO_NAME
+
     - name: Build and Push Docker Image
       run: |
         aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.ap-southeast-1.amazonaws.com
