@@ -4,7 +4,7 @@ metadata:
   name: aggregator-service
   namespace: healthsync
 spec:
-  schedule: "0 * * * *" # Schedule to run daily at 3:00 AM 
+  schedule: "*/1 * * * *" # Schedule to every 1 min
   jobTemplate:
     spec:
       template:
@@ -12,6 +12,8 @@ spec:
           containers:
           - name: aggregator-service
             image: 553580522931.dkr.ecr.ap-southeast-1.amazonaws.com/healthsync/aggregator-service:latest
+            command: ["python", "aggregator_service.py"]
+            args: ["--run-aggregation"]
             env:
             - name: RDS_DB_URI
               valueFrom:
@@ -19,8 +21,6 @@ spec:
                   name: db-secrets
                   key: RDS_DB_URI
             imagePullPolicy: Always
-            ports:
-            - containerPort: 8086
             resources:
               limits:
                 memory: "512Mi"
@@ -29,17 +29,3 @@ spec:
                 memory: "256Mi"
                 cpu: "250m"
           restartPolicy: OnFailure
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: aggregator-service
-  namespace: healthsync
-spec:
-  type: LoadBalancer
-  selector:
-    app: aggregator-service 
-  ports:
-  - port: 80
-    targetPort: 8080
