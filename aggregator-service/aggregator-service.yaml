@@ -20,7 +20,7 @@ spec:
                   key: RDS_DB_URI
             imagePullPolicy: Always
             ports:
-            - containerPort: 8086
+            - containerPort: 8090
             resources:
               limits:
                 memory: "512Mi"
