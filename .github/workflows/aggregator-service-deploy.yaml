@@ -4,9 +4,9 @@ on:
   push:
     branches:
       - main
-    paths:
-      - 'aggregator-service/**'
-      - 'aggregator-service/app/**
+    # paths:
+    #   - 'aggregator-service/**'
+    #   - 'aggregator-service/app/**
 
 
 jobs:
@@ -73,4 +73,5 @@ jobs:
           kubectl config set-context --current --namespace=healthsync
           kubectl apply -f aggregator-service/deployment.yaml
           kubectl apply -f aggregator-service/service.yaml
+          kubectl apply -f aggregator-service/aggregator-service.yamls
           kubectl get svc -n healthsync
