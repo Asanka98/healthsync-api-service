@@ -12,7 +12,7 @@ spec:
           containers:
           - name: aggregator-service
             image: 553580522931.dkr.ecr.ap-southeast-1.amazonaws.com/healthsync/aggregator-service:latest
-            command: ["python", "aggregator_service.py"]
+            command: ["python", "app/aggregator_service.py"]
             args: ["--run-aggregation"]
             env:
             - name: RDS_DB_URI
