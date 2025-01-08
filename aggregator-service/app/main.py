@@ -18,10 +18,10 @@ def aggregate_data():
     # Fetch data from RDS
     with rds_engine.connect() as conn:
         query = """
-        SELECT doctor_name, COUNT(*) AS appointment_count, MAX(appointment_time) AS last_update
-        FROM appointments
-        GROUP BY doctor_name;
-        """
+                    SELECT doctor_name, COUNT(*) AS appointment_count, MAX(appointment_time) AS last_update
+                    FROM appointments
+                    GROUP BY doctor_name;
+                """
         data = pd.read_sql(text(query), conn)
 
     # Example: Store the aggregated data back into RDS (in a new table)
