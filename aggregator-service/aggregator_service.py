@@ -42,6 +42,7 @@ def aggregate_data():
     except Exception as e:
         print(f"Error occurred during aggregation: {e}")
 
+
 # Root endpoint for health check
 @app.get("/")
 def read_root():
