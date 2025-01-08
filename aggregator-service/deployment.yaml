@@ -4,7 +4,7 @@ metadata:
   name: aggregator-service
   namespace: healthsync
 spec:
-  schedule: "0 3 * * *" # Schedule to run daily at 3:00 AM
+  schedule: */1 * * * * # "0 3 * * *" # Schedule to run daily at 3:00 AM
   jobTemplate:
     spec:
       template:
