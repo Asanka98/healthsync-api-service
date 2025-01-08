@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - 'aggregator-service/**'
+      - 'aggregator-service/app/**
 
 
 jobs:
