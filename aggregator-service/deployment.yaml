@@ -1,42 +1,35 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: batch/v1
+kind: CronJob
 metadata:
   name: aggregator-service
   namespace: healthsync
 spec:
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxUnavailable: 1
-      maxSurge: 1
-  replicas: 1
-  selector:
-    matchLabels:
-      app: aggregator-service
-  template:
-    metadata:
-      labels:
-        app: aggregator-service
+  schedule: "0 * * * *" # Schedule to run daily at 3:00 AM 
+  jobTemplate:
     spec:
-      containers:
-      - name: aggregator-service
-        image: 553580522931.dkr.ecr.ap-southeast-1.amazonaws.com/healthsync/aggregator-service:latest
-        env:
+      template:
+        spec:
+          containers:
+          - name: aggregator-service
+            image: 553580522931.dkr.ecr.ap-southeast-1.amazonaws.com/healthsync/aggregator-service:latest
+            env:
             - name: RDS_DB_URI
               valueFrom:
                 secretKeyRef:
                   name: db-secrets
                   key: RDS_DB_URI
-        imagePullPolicy: Always
-        ports:
-        - containerPort: 8086
-        resources:
-          requests:
-            memory: "128Mi"
-            cpu: "250m"
-          limits:
-            memory: "256Mi"
-            cpu: "500m"
+            imagePullPolicy: Always
+            ports:
+            - containerPort: 8086
+            resources:
+              limits:
+                memory: "512Mi"
+                cpu: "500m"
+              requests:
+                memory: "256Mi"
+                cpu: "250m"
+          restartPolicy: OnFailure
+
 ---
 apiVersion: v1
 kind: Service
